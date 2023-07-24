@@ -31,7 +31,7 @@ public class Encryption {
     }
 
 
-    public String encrypteMessage(String message) {
+    public String encryptMessage(String message) {
         byte messageByte[] = message.getBytes();
         byte encrypteByte[] = new byte[messageByte.length];
 
@@ -58,7 +58,7 @@ public class Encryption {
     }
 
 
-    public String decrypteMessage(String message) throws UnsupportedEncodingException {
+    public String decryptMessage(String message) throws UnsupportedEncodingException {
         byte [] encryptedByte = message.getBytes("ISO-8859-1");
         String decrypteMessage = message;
 

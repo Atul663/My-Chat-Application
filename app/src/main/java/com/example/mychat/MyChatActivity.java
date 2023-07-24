@@ -46,74 +46,250 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+//
+//public class MyChatActivity extends AppCompatActivity {
+//
+//    ImageView imageViewBack;
+//    CircleImageView sendMessage, profilePictureChatActivity;
+//    EditText enterMessage;
+//    TextView UserNameChatActivity;
+//    RecyclerView recyclerViewChat;
+//
+//    String userName, otherName, profilePictureUser, id, name;
+//
+//    FirebaseDatabase database;
+//    DatabaseReference reference;
+//
+//    ModelClass modelclass ;
+//    FirebaseAuth auth = FirebaseAuth.getInstance();
+//    //FirebaseUser user = auth.getCurrentUser();
+//    Encryption encryption = new Encryption();
+//
+//    MessageAdapter adapter;
+//    List <ModelClass> list;
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_my_chat);
+//
+//
+//        imageViewBack = findViewById(R.id.imageViewBack);
+//        enterMessage = findViewById(R.id.editTextEnterMessage);
+//        UserNameChatActivity = findViewById(R.id.textViewUserNameChatActivity);
+//        profilePictureChatActivity = findViewById(R.id.profilePictureChatActivity);
+//        sendMessage = findViewById(R.id.sendMessage);
+//        recyclerViewChat = findViewById(R.id.recyclerViewChatScreen);
+//
+//        recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
+//        list = new ArrayList<>();
+//
+//        database = FirebaseDatabase.getInstance();
+//        reference = database.getReference();
+//
+//        modelclass = new ModelClass();
+//
+//        id = getIntent().getStringExtra("id");
+//
+//        //
+//            DBManager db = new DBManager(this);
+//            String res = db.addData(id);
+//        Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+//
+//        //
+//        otherName = getIntent().getStringExtra("OtherName");
+//        profilePictureUser = getIntent().getStringExtra("profilePictureUrl");
+//        reference.child("Users").child(otherName).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//               name = snapshot.child("Username").getValue().toString();
+//               UserNameChatActivity.setText(name);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//        userName = auth.getUid();
+//
+//        if(profilePictureUser.equals(""))
+//        {
+//            profilePictureChatActivity.setImageResource(R.drawable.ic_launcher_foreground);
+//        }
+//        else
+//        {
+//            Picasso.get().load(profilePictureUser).into(profilePictureChatActivity);
+//        }
+//
+//        imageViewBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MyChatActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        sendMessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String message = enterMessage.getText().toString();
+//                if(!message.equals("")) {
+//                    sendMessageFun(message);
+//                    enterMessage.setText("");
+//                }
+//            }
+//        });
+//
+//        profilePictureChatActivity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MyChatActivity.this, UserProfile.class);
+//                intent.putExtra("id",id);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        UserNameChatActivity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MyChatActivity.this, UserProfile.class);
+//                intent.putExtra("id",id);
+//                startActivity(intent);
+//            }
+//        });
+//        getMessage();
+//
+//    }
+//
+//    public void getMessage() {
+//        reference.child("Message").child(userName).child(otherName)
+//                .addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                modelclass = snapshot.getValue(ModelClass.class);
+//                try {
+//                    modelclass.setMessage(encryption.decrypteMessage(modelclass.getMessage()));
+//                } catch (UnsupportedEncodingException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                list.add(modelclass);
+//                modelclass.setMessageId(snapshot.getKey());
+//                adapter.notifyDataSetChanged();
+//                recyclerViewChat.scrollToPosition(list.size()-1);
+//
+//            }
+//                    @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//        adapter = new MessageAdapter(list, userName, otherName);
+//        recyclerViewChat.setAdapter(adapter);
+//    }
+//
+//    public void sendMessageFun(String message) {
+//        final String key = reference.child("Message").child(userName).child(otherName).push().getKey();
+//        final Map<String, Object> messageMap = new HashMap<>();
+//        Long timeStamp = new Date().getTime();
+//
+//        messageMap.put("message", encryption.encrypteMessage(message));
+//        messageMap.put("from", userName);
+//        messageMap.put("timeStamp",timeStamp);
+////        System.out.println("hii");
+//        reference.child("Message").child(userName).child(otherName).child(key).setValue(messageMap)
+//                .addOnCompleteListener(task -> {
+//                    if(task.isSuccessful())
+//                    {
+//                        reference.child("Message").child(otherName).child(userName).child(key).setValue(messageMap);
+//                    }
+//
+//                });
+//    }
+//}
+
+
+// Import statements
 
 public class MyChatActivity extends AppCompatActivity {
 
-    ImageView imageViewBack;
-    CircleImageView sendMessage, profilePictureChatActivity;
-    EditText enterMessage;
-    TextView UserNameChatActivity;
-    RecyclerView recyclerViewChat;
+    // Views
+    private ImageView imageViewBack;
+    private CircleImageView profilePictureChatActivity;
+    private TextView UserNameChatActivity;
+    private EditText enterMessage;
+    private ImageView sendMessage;
+    private RecyclerView recyclerViewChat;
 
-    String userName, otherName, profilePictureUser, id, name;
-
-    FirebaseDatabase database;
-    DatabaseReference reference;
-
-    ModelClass modelclass ;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    //FirebaseUser user = auth.getCurrentUser();
+    // Firebase
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
     Encryption encryption = new Encryption();
 
-    MessageAdapter adapter;
-    List <ModelClass> list;
+    // Other variables
+    private String userName, otherName, profilePictureUser, id, name;
+    private ModelClass modelClass;
+    private MessageAdapter adapter;
+    private List<ModelClass> messageList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_chat);
 
+        // Initialize Views
         imageViewBack = findViewById(R.id.imageViewBack);
         enterMessage = findViewById(R.id.editTextEnterMessage);
         UserNameChatActivity = findViewById(R.id.textViewUserNameChatActivity);
         profilePictureChatActivity = findViewById(R.id.profilePictureChatActivity);
         sendMessage = findViewById(R.id.sendMessage);
         recyclerViewChat = findViewById(R.id.recyclerViewChatScreen);
-
         recyclerViewChat.setLayoutManager(new LinearLayoutManager(this));
-        list = new ArrayList<>();
 
+        // Initialize Firebase
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-        modelclass = new ModelClass();
+        // Initialize other variables
+        modelClass = new ModelClass();
+        messageList = new ArrayList<>();
 
+        // Get data from Intent
         id = getIntent().getStringExtra("id");
         otherName = getIntent().getStringExtra("OtherName");
         profilePictureUser = getIntent().getStringExtra("profilePictureUrl");
-        reference.child("Users").child(otherName).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-               name = snapshot.child("Username").getValue().toString();
-               UserNameChatActivity.setText(name);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        // Add data to local database
+        DBManager db = new DBManager(this);
+        String res = db.addData(id);
+        Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
 
-            }
-        });
-
+        // Set user name and profile picture
         userName = auth.getUid();
-
-        if(profilePictureUser.equals(""))
-        {
+        if (profilePictureUser.equals("")) {
             profilePictureChatActivity.setImageResource(R.drawable.ic_launcher_foreground);
-        }
-        else
-        {
+        } else {
             Picasso.get().load(profilePictureUser).into(profilePictureChatActivity);
         }
 
+        // Back button click listener
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,96 +298,96 @@ public class MyChatActivity extends AppCompatActivity {
             }
         });
 
+        // Send message click listener
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String message = enterMessage.getText().toString();
-                if(!message.equals("")) {
+                if (!message.equals("")) {
                     sendMessageFun(message);
                     enterMessage.setText("");
                 }
             }
         });
 
+        // Profile picture click listener
         profilePictureChatActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyChatActivity.this, UserProfile.class);
-                intent.putExtra("id",id);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
 
+        // User name click listener
         UserNameChatActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MyChatActivity.this, UserProfile.class);
-                intent.putExtra("id",id);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
-        getMessage();
 
+        // Get chat messages from Firebase
+        getMessage();
     }
 
+    // Method to retrieve chat messages from Firebase
     public void getMessage() {
         reference.child("Message").child(userName).child(otherName)
                 .addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                modelclass = snapshot.getValue(ModelClass.class);
-                try {
-                    modelclass.setMessage(encryption.decrypteMessage(modelclass.getMessage()));
-                } catch (UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-                list.add(modelclass);
-                modelclass.setMessageId(snapshot.getKey());
-                adapter.notifyDataSetChanged();
-                recyclerViewChat.scrollToPosition(list.size()-1);
-
-            }
                     @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        modelClass = snapshot.getValue(ModelClass.class);
+                        try {
+                            modelClass.setMessage(encryption.decryptMessage(modelClass.getMessage()));
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        }
+                        messageList.add(modelClass);
+                        modelClass.setMessageId(snapshot.getKey());
+                        adapter.notifyDataSetChanged();
+                        recyclerViewChat.scrollToPosition(messageList.size() - 1);
+                    }
 
-            }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                    }
 
-            }
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    }
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        adapter = new MessageAdapter(list, userName, otherName);
+        adapter = new MessageAdapter(messageList, userName, otherName);
         recyclerViewChat.setAdapter(adapter);
     }
 
+    // Method to send a new message
     public void sendMessageFun(String message) {
         final String key = reference.child("Message").child(userName).child(otherName).push().getKey();
         final Map<String, Object> messageMap = new HashMap<>();
         Long timeStamp = new Date().getTime();
 
-        messageMap.put("message", encryption.encrypteMessage(message));
+        messageMap.put("message", encryption.encryptMessage(message));
         messageMap.put("from", userName);
-        messageMap.put("timeStamp",timeStamp);
-//        System.out.println("hii");
+        messageMap.put("timeStamp", timeStamp);
+
         reference.child("Message").child(userName).child(otherName).child(key).setValue(messageMap)
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful())
-                    {
+                    if (task.isSuccessful()) {
                         reference.child("Message").child(otherName).child(userName).child(key).setValue(messageMap);
                     }
-
                 });
     }
 }
